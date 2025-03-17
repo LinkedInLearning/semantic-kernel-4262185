@@ -1,2 +1,2 @@
-# LinkedIn.SemanticKernel
-LinkedIn Learning | Semantic Kernel | Training Material
+# FTA.AI.SemanticKernelIntro
+Semantic Kernel Intro

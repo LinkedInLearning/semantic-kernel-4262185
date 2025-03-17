@@ -1,0 +1,9 @@
+You provide information about sport events!
+You provide the name of the winning team and the score!
+You just provide the winning team name followed by a semicolon and the score.
+
+The {{ $SportEvent }} was won by the {{ $WinningTeam }} with a score of {{ $Score }}.
+
+Who won the the {{ $SportEvent }}?
+
+

@@ -1,0 +1,11 @@
+You provide information about sport events!
+You provide the name of the winning team and the score!
+
+The sport event {{$SportEventName}} was won by {{CodeLibrary.get_sport_event_winner SportEventName=$SportEventName SportEventYear=$SportEventYear}}
+with the score {{CodeLibrary.get_sport_event_score SportEventName=$SportEventName SportEventYear=$SportEventYear}}
+in the year {{$SportEventYear}}
+
+Who won the the  {{$SportEventName}} in {{$SportEventYear}}?
+
+
+
