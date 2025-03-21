@@ -101,7 +101,7 @@ az cognitiveservices account deployment create `
 ################################################
 # Step 7:   Store configuration
 ################################################
-$configurationFile = "../Notebooks/config/config.env"
+$configurationFile = "./Notebooks/config/config.env"
 New-Item -Name $configurationFile -ItemType File -Force
 
 function Set-ConfigurationFileVariable($configurationFile, $variableName, $variableValue) {
