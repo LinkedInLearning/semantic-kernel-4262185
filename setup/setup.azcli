@@ -1,0 +1,120 @@
+################################################
+# Step 1:   Logon to Azure; Get, Set subscription
+################################################
+# Login to subscription
+az login
+
+# Retrieve default subscription id
+$subscriptionId = (
+    (
+        az account list `
+            --query "[?isDefault]" 
+    ) | ConvertFrom-Json
+).id
+
+# Set Subscription
+az account set --subscription $subscriptionId
+
+################################################
+# Step 2:   Define project unifier
+################################################
+$random = Get-Random -Minimum 100 -Maximum 999
+
+################################################
+# Step 3:   Create Resource Group
+################################################
+$resourceGroup = "LIL.SemanticKernel"
+$location = "southcentralus"
+
+az group create `
+    --location $location `
+    --resource-group $resourceGroup
+
+################################################
+# Step 4:   Create OpenAI instance
+################################################
+$csName = "SemanticKernelSample$random"
+
+az cognitiveservices account create `
+    --name $csName `
+    --resource-group $resourceGroup `
+    --location $location `
+    --kind OpenAI `
+    --sku S0 `
+    --yes
+
+$csEndpoint = ( `
+    az cognitiveservices account show `
+        --name $csName `
+        --resource-group $resourceGroup `
+        --query properties.endpoint `
+        --output tsv `
+)
+
+$csApiKey = (
+    az cognitiveservices account keys list `
+        --name $csName `
+        --resource-group $resourceGroup `
+        --query key1 `
+        --output tsv
+)
+
+################################################
+# Step 5:   Deploy completion model
+################################################
+$modelChatCompletionDeploymentName = "gpt-4o"
+$modelName = "gpt-4o"
+$modelVersion = "2024-05-13"
+$modelFormat = "OpenAI"
+$scaleType = "Standard"
+
+az cognitiveservices account deployment create `
+   --resource-group $resourceGroup `
+   --name $csName `
+   --deployment-name $modelChatCompletionDeploymentName `
+   --model-name $modelName `
+   --model-version $modelVersion `
+   --model-format $modelFormat `
+   --sku-name $scaleType `
+   --sku-capacity 1
+
+################################################
+# Step 6:   Deploy embedding model
+################################################
+$modelFormat = "OpenAI"
+$modelEmbeddingDeploymentName = "textembedding-3-large"
+$modelName = "text-embedding-ada-002"
+$modelVersion = "2"
+$scaleType = "Standard"
+
+az cognitiveservices account deployment create `
+   --resource-group $resourceGroup `
+   --name $csName `
+   --deployment-name $modelEmbeddingDeploymentName `
+   --model-name $modelName `
+   --model-version $modelVersion `
+   --model-format $modelFormat `
+   --sku-name $scaleType `
+   --sku-capacity 1
+
+
+################################################
+# Step 7:   Store configuration
+################################################
+$configurationFile = "./Notebooks/config/config.env"
+New-Item -Name $configurationFile -ItemType File -Force
+
+function Set-ConfigurationFileVariable($configurationFile, $variableName, $variableValue) {
+    if (Select-String -Path $configurationFile -Pattern $variableName) {
+        (Get-Content $configurationFile) | Foreach-Object {
+            $_ -replace "$variableName = .*", "$variableName = $variableValue"
+        } | Set-Content $configurationFile
+    } else {
+        Add-Content -Path $configurationFile -value "$variableName = $variableValue"
+    }
+}
+
+Set-ConfigurationFileVariable $configurationFile "SK_OPENAI_APIKEY" $csOpenAIApiKey
+Set-ConfigurationFileVariable $configurationFile "SK_OPENAI_ENDPOINT" $csOpenAIEndpoint
+Set-ConfigurationFileVariable $configurationFile "SK_OPENAI_CHATCOMPLETION_DEPLOYMENT_DEFAULT" $modelChatCompletionDeploymentName
+Set-ConfigurationFileVariable $configurationFile "SK_OPENAI_EMBEDDING_DEPLOYMENT" $modelEmbeddingDeploymentName

@@ -1,0 +1,10 @@
+You provide information about sport events!
+You provide the name of the winning team and the score!
+You just provide the winning team name followed by a semicolon and the score.
+
+The Super Sports Championship 2025 was won by the Munich Flying Dolphins with a score of 30-27.
+
+Who won the the Super Sport Championship 2025?
+
+
+
