@@ -29,5 +29,5 @@ _Principal Service Engineer_
 Sehen Sie sich andere Kurse des Autors auf [LinkedIn Learning](https://www.linkedin.com/learning/instructors/robert-eichenseer) an.
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
-[lil-course-url]: https://www.linkedin.com
-[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQG0eDHsyOSqTA/learning-public-crop_675_1200/B4EZVdqqdwHUAY-/0/1741033220778?e=2147483647&v=beta&t=FxUDo6FA8W8CiFROwqfZKL_mzQhYx9loYLfjN-LNjgA
+[lil-course-url]: https://www.linkedin.com/learning/semantic-kernel-grundkurs
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4D0DAQGZ54lKwO6x_A/learning-public-crop_675_1200/B4DZav.JO4HwAc-/0/1746709026197?e=2147483647&v=beta&t=K-tFfmSVMzwwhA30EhDGmGdosuxGOiniy8g-4ZPtAWU
